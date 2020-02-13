@@ -23,9 +23,10 @@ def run_shortcut(value):
     switch_model(value)
 
 def add_in_shortcuts(cuts, editor):
-    config = mw.addonManager.getConfig(__name__)
-    for key in config:
-        val = config[key]
-        cuts.append((key, lambda i=val: run_shortcut(i)))
+    myscuts = mw.addonManager.getConfig(__name__)["shortcuts"]
+    for key in myscuts:
+        val = myscuts[key]
+        if val and val != "none":
+            cuts.append((key, lambda i=val: run_shortcut(i)))
 
 gui_hooks.editor_did_init_shortcuts.append(add_in_shortcuts)
