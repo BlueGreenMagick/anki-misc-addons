@@ -1,0 +1,1 @@
+Barebone for solution to removing divs that break mathjax. Not ready for use yet.
