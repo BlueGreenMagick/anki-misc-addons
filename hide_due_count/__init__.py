@@ -1,4 +1,5 @@
 from aqt.deckbrowser import DeckBrowser
+from aqt.overview import Overview
 from anki.hooks import wrap
 
 class magical_question_mark:
@@ -15,7 +16,7 @@ class magical_question_mark:
     def __str__(self):
         return "?"
 
-def myfunc(self, node, *args, _old, **kwargs):
+def browserfunc(self, node, *args, _old, **kwargs):
     #node is a tuple
     #name, did, due, lrn, new, children
     a = list(node)
@@ -25,4 +26,24 @@ def myfunc(self, node, *args, _old, **kwargs):
         node = tuple(a)
     return _old(self, node, *args, **kwargs)
 
-DeckBrowser._deckRow = wrap(DeckBrowser._deckRow, myfunc, "around")
+def overviewfunc(self, _old):
+    r = _old(self)
+    return r + """
+<script>
+    (function(){
+        var hideCount = function(str){
+            el = document.getElementsByClassName(str)[0];
+            if(el.innerHTML != "0"){
+                el.innerHTML = "?";
+            }
+        }
+        var classes = ["new-count", "learn-count", "review-count"];
+        for(var x = 0; x < classes.length; x++){
+            hideCount(classes[x]);
+        }
+    })()
+</script>
+"""
+
+DeckBrowser._deckRow = wrap(DeckBrowser._deckRow, browserfunc, "around")
+Overview._table = wrap(Overview._table, overviewfunc, "around")
