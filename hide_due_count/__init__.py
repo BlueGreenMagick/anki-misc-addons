@@ -22,8 +22,9 @@ def browserfunc(self, node, *args, _old, **kwargs):
     a = list(node)
     if a[2] + a[3]:
         a[2] = magical_question_mark()
+    if a[4]:    
         a[4] = magical_question_mark()
-        node = tuple(a)
+    node = tuple(a)
     return _old(self, node, *args, **kwargs)
 
 def overviewfunc(self, _old):
