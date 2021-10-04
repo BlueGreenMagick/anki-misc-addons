@@ -6,15 +6,18 @@ from aqt.addcards import AddCards
 add_dialog: Optional[AddCards] = None
 
 def switch_model(name):
-    notetype = mw.col.models.by_name(name)
-    if notetype:
-        id = notetype["id"]
-        add_dialog.notetype_chooser.selected_notetype_id = id
-    else:
-        tooltip("No note type with name: " + name)
+    try:
+        notetype = mw.col.models.by_name(name)
+        if notetype:
+            id = notetype["id"]
+            add_dialog.notetype_chooser.selected_notetype_id = id
+            tooltip(name)
+        else:
+            tooltip("No note type with name: " + name)
+    except: # triggered when not in Add Cards window
+        pass
         
 def run_shortcut(value):
-    tooltip(value)
     switch_model(value)
 
 def add_in_shortcuts(cuts, editor):
