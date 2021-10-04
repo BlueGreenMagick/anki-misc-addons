@@ -1,2 +1,4 @@
 meta.json
 
+*.pyc
+__pycache__
