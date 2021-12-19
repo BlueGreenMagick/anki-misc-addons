@@ -11,6 +11,9 @@ def newinit(self, mw, _old):
     if config["deck"]:
         self.deckChooser.onDeckChange()
     if config["model"]:
-        self.modelChooser.onModelChange()
+        try:
+            self.modelChooser.onModelChange()
+        except:
+            self.notetype_chooser.choose_notetype()
     
 AddCards.__init__ = wrap(AddCards.__init__, newinit, "around")
